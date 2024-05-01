@@ -2,11 +2,13 @@
 
 ## 一、Java虚拟机（JVM）
 
-![JVM](https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/JavaSE-asserts/202404292239671.png)
+![](https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/asserts_JavaSE/202405011249837.png)
 
 ## 二、Java的加载与执行原理
 
-![加载与执行原理](https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/JavaSE-asserts/202404292239825.png)
+![](https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/asserts_JavaSE/202405011250158.PNG)
+
+
 
 ## 三、JDK、JRE、JVM分别是什么？他们的关系是什么？
 
@@ -19,7 +21,9 @@
 3. **JVM（Java Virtual Machine）：**   
    JVM 是 Java 虚拟机，它是 Java 程序的运行环境。JVM 负责在实际的硬件平台上执行 Java 字节码（即编译后的 Java 代码）。JVM 负责加载字节码、解释执行或即时编译字节码为本地机器代码，并管理内存、执行垃圾回收等任务。JVM 的存在使得 Java 能够实现“一次编写，到处运行”的特性。
 
-   ![JVM](https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/JavaSE-asserts/202404292239468.png)
+   
+
+   <img src="https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/asserts_JavaSE/202405011250370.png"  height="300" width="300">
 
 ## 四、class和public class的区别    
 
@@ -343,7 +347,9 @@ public class ReadClass {
 }
 ```
 
-<img height="300" src="https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/JavaSE-asserts/202404292257734.png" width="600"/>
+<img height="300" src="https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/asserts_JavaSE/202405011251901.png" width="600"/>
+
+
 
 - **解读：**   
     - `bipush 10`: 将 10 这个字面量压入操作数栈中。    
@@ -352,7 +358,7 @@ public class ReadClass {
     - `istore_2`: 将操作数栈顶元素弹出，然后将其存储到局部变量表的二号槽位上。   
     - `iinc 2, 1`: 将局部变量表的 2 号槽位上的数加一。   
 
-    <img height="300" src="https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/JavaSE-asserts/202404292257738.png" width="600"/>
+    <img height="300" src="https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/asserts_JavaSE/202405011252894.png" width="600"/>
 
 ### 2.2、i++、++i 字节码角度剖析
 
@@ -621,7 +627,7 @@ public class MethodTest02{
 }
 ```
 
-![JVM方法](https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/JavaSE-asserts/202404292304105.png)
+![](https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/asserts_JavaSE/202405011253474.png)
 
 ## 四、方法重载
 
@@ -1062,7 +1068,7 @@ public class StudentTest01 {
 
 ```
 
-![在这里插入图片描述](https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/JavaSE-asserts/202404292313480.png)
+![JVM内存分析图](https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/asserts_JavaSE/202405011253305.png)
 
 从此图可以看出，开始将所有类的字节码存储到元空间当中，当对象被创建时就在堆内存中开辟一个空间，用于存储对象和实例变量等。然后通过引用实现对对象的一系列操作。
 其中对象属性等的改变都发生在堆内存中，引用只不过保存了它的地址（这和C++中的指针很像）。
@@ -1150,7 +1156,7 @@ public class ArgsTest01 {
 }
 ```
 
-![在这里插入图片描述](https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/JavaSE-asserts/202404292318843.png)
+![在这里插入图片描述](https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/asserts_JavaSE/202405011253714.png)
 
 ### 5.2、方法调用时传递引用数据类型
 
@@ -1401,7 +1407,7 @@ this 本质上是一个引用。this 中保存的是当前对象的内存地址�
 
 3. **传递当前对象的引用**：可以将当前对象的引用传递给其他方法，这在某些情况下很有用。
 
-![](https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/JavaSE-asserts/202404301640189.png)
+![](https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/asserts_JavaSE/202405011254685.png)
 
 
 ```java
@@ -1507,7 +1513,7 @@ public class UserTest {
 ```
 
 
-![](https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/JavaSE-asserts/202404301011206.png)
+![](https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/asserts_JavaSE/202405011255258.png)
 
 
 
@@ -1553,7 +1559,7 @@ public class UserTest {
     }
 }
 ```
-![](https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/JavaSE-asserts/202404301010851.png)
+![](https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/asserts_JavaSE/202405011255359.png)
 
 ### 9.2、Java中静态变量和方法的访问，以及静态变量不能使用this关键字
 1. 静态变量和方法建议使用`类名.`调用。虽然用`引用.`也可以，但是实质还是通过类来调用，而且这样容易和实例变量和方法的访问相混淆。    
@@ -1899,7 +1905,7 @@ class Subclass extends Superclass {
 
 在Java中，向上转型（Upcasting）和向下转型（Downcasting）是面向对象编程中常用的概念，**用于处理类之间的继承关系**。   
 
-<img src="https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/JavaSE-asserts/202404302121726.png"  width="400px" height="400px">
+<img src="https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/asserts_JavaSE/202405011256547.png"  width="400px" height="400px">
 
 1. **向上转型（Upcasting）**：向上转型是指将子类对象赋值给父类引用变量的过程。这样做是安全的，因为子类对象拥有父类的所有属性和方法。向上转型可以实现多态性，使得代码更加灵活。例如：
 
