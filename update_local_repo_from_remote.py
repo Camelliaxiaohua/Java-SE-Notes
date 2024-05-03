@@ -17,7 +17,7 @@ def pull_remote_repo(remote_url, local_path):
         print("拉取远程仓库内容失败:", e)
 
 if __name__ == "__main__":
-    remote_url = "git@github.com:Camelliaxiaohua/Java-SE-Notes.git"  # 修改为你的GitHub仓库SSH URL
+    remote_url = "git@github.com:camelliaxiaohua/Java-SE-Notes.git"  # 修改为你的GitHub仓库SSH URL
     local_path = "E:\\Notes"  # 修改为你本地的仓库路径
     
     pull_remote_repo(remote_url, local_path)

@@ -15,7 +15,7 @@ def upload_typora_to_github():
     subprocess.run(["git", "commit", "-m", "Update notes"])
 
     # 修改远程仓库的 URL（使用 SSH URL）
-    github_repo_url = "git@github.com:Camelliaxiaohua/Java-SE-Notes.git"
+    github_repo_url = "git@github.com:camelliaxiaohua/Java-SE-Notes.git"
     subprocess.run(["git", "remote", "set-url", "origin", github_repo_url])
 
     # 推送到GitHub
