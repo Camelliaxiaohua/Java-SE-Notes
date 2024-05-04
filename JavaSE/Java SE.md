@@ -1720,81 +1720,6 @@ public class SingletonTest {
 
 
 
-
-# 继承
-## 一、继承的基本语法
-1、**继承概念：** 在Java中，继承是面向对象编程中的一个重要概念，它允许一个类（称为子类或派生类）继承另一个类（称为父类或基类）的属性和方法。
-Java中的继承通过关键字extends来实现。    
-> * Java只支持单继承，一个类只能直接继承一个类。    
-> * Java不支持多继承，但是支持多重继承。    
-> * 子类继承父类，除了**私有的不支持继承**、**构造方法不支持继承**，其他的全部都能继承。    
-> * 一个类没有显示的继承任何类，默认继承java.lang.Object类。
-> * Object是老祖宗，是JDK类库中的根类。
-
-2、**继承在Java中的实现：**
-```java
-class Subclass extends Superclass {
-    // 子类的成员变量和方法
-}
-```
-3、**继承的相关术语**    
-   * 父类也可以叫做超类、基类、superclass。   
-   * 子类也可叫做派生类、subclass。   
-
-## 二、方法覆盖/Override/方法重写/Overwrite
-1. 什么时候使用方法重写？   
-   当从父类继承来的方法，无法满足子类业务需求时。
-2. 当满足什么条件的时候，构成方法重写？
-   * 方法覆盖发生在具有继承关系的父子类之间。
-   * 具有相同的方法名（必须严格一样）
-   * 具有相同的形参列表（必须严格一样）
-   * 具有相同的返回值类型（可以是子类型）
-3. 关于方法重写的细节
-   * 当子类将父类方法覆盖之后，将来子类对象调用方法的时候，一定会执行重写之后的方法。
-   * 在java语言中，有一个注解，这个注解可以在编译阶段检查这个方法是否是重写了父类的方法。@Override注解是JDK5引入，用来标注方法，被标注的方法必须是重写父类的方法，如果不是重写的方法，编译器会报错。@Override注解只在编译阶段有用，和运行期无关。
-   * 如果返回值类型是引用数据类型，那么这个返回值类型可以是原类型的子类型
-      * ```java
-         public class Animal{
-        public Object getObj(int a,String b){
-                retrun;
-           }
-        }
-        ```
-      *  ```java
-          public class Bird{
-         @Override
-          public String getObj(int a,String b){   //返回值String是Object的子类。
-                  return ;
-               }
-         }
-         ```
-4. 当在子类中重写父类方法时，访问权限可以变得更高，但不能变得更低。这是因为子类中的方法必须能够访问父类中的方法，否则就会破坏继承关系。
-  ```java
-    class Animal {
-        // 父类中的方法使用protected访问修饰符
-        protected void sound() {
-            System.out.println("Animal makes a sound");
-        }
-    }
-      
-     class Dog extends Animal {
-         // 子类中的方法将访问权限从protected提升为public
-        public void sound() {
-            System.out.println("Dog barks");
-        }
-    }
-  ```
-5. 抛出异常不能变多，可以变少。（后面学习异常的时候再说。）
-6. 私有的方法，以及构造方法不能继承，因此他们不存在方法覆盖。
-7. 方法覆盖针对的是实例方法。和静态方法无关。（讲完多态再说。）
-8. 方法覆盖针对的是实例方法。和实例变量没有关系。
-
-
-
-
-
-
-
 # 继承
 ## 一、继承的基本语法
 1、**继承概念：** 在Java中，继承是面向对象编程中的一个重要概念，它允许一个类（称为子类或派生类）继承另一个类（称为父类或基类）的属性和方法。
@@ -2256,3 +2181,322 @@ public class Test {
         master.feed(d);
     }
 }
+```
+
+### 3.3、静态方法不存在方法覆盖
+
+```java
+package com.camellia.oop22;
+
+public class Animal {
+
+    public static void test(){
+        System.out.println("Animal's test method invoke");
+    }
+
+}
+```
+
+```java
+package com.camellia.oop22;
+
+public class Cat extends Animal{
+
+    // 尝试去重写父类的静态方法
+    public static void test(){
+        System.out.println("Cat's test method invoke");
+    }
+}
+```
+
+```java
+package com.camellia.oop22;
+
+/**
+ *  方法覆盖针对的是实例方法。和静态方法无关。【方法的覆盖和多态机制联合起来才有意义。】
+ */
+public class Test {
+    public static void main(String[] args) {
+        Animal.test();
+        //test是静态方法、可以通过类名调用和实例无关。
+        Cat.test();
+        
+        Animal a = new Cat();
+        a.test();
+        //虽然a指向的是Cat()对象，但是a是Animal类型的实例变量，所以此test是Animal的静态方法。
+    }
+}
+```
+
+### 3.4、实例变量没有多态
+
+```java
+package com.camellia.oop22;
+
+/**
+ * 方法覆盖针对的是实例方法。和实例变量没有关系。
+ */
+public class Test2 {
+    public static void main(String[] args) {
+        // 多态
+        A a = new B();
+        // 实例变量不存在覆盖这一说。
+        // a.name编译阶段绑定的是A类的name属性，运行的时候也会输出A类的name属性值。
+        System.out.println(a.name);
+
+        // 没有用多态
+        B b = new B();
+        System.out.println(b.name);
+    }
+}
+
+class A {
+    // 实例变量
+    String name = "张三";
+}
+
+class B extends A {
+    // 实例变量
+    String name = "李四";
+}
+
+```
+
+
+
+
+# super关键字
+* 在Java中，this代表的是当前对象，super代表的是当前对象中的父亲特征。    
+* super不能使用在静态上下文中。    
+* 在构造方法中调用父类构造方法或者父类和子类中存在同名实例变量、实例方法时super关键字不可省略。
+
+## 一、super内存图
+![](https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/asserts_JavaSE/202405040551175.png)
+
+```java
+package com.camellia.oop24;
+
+//父类
+public class Person {
+
+    String name;
+    int age;
+    String email;
+    String address;
+
+    public Person() {
+        super();
+    }
+    
+       Getter();
+       Setter(); //省略
+   
+//     实例方法
+    
+    public void doSome(){
+        System.out.println("人类正在做一些事情！");
+    }
+}
+
+```
+```java
+package com.camellia.oop24;
+
+//  子类
+
+public class Teacher extends Person{
+    
+    //特有的属性：工资
+    double sal;
+    
+    public Teacher() {
+    }
+
+    public Teacher(String name, int age, String email, String address, double sal) {
+        this.name = name;
+        this.age = age;
+        this.email = email;
+        this.address = address;
+        this.sal = sal;
+    }
+
+    Setter();
+    Getter();
+
+    public void display() {
+        
+        System.out.println("姓名：" + this.name);
+        System.out.println("年龄：" + this.age);
+        System.out.println("邮箱：" + this.email);
+        System.out.println("住址：" + this.address);
+        System.out.println("工资：" + this.sal);
+    }
+}
+```
+## 二、super不能缺省的几种情况
+
+* 如果父类和子类中存在同名的实例变量，为了明确指定使用父类的实例变量，必须使用 super 关键字来引用父类的实例变量。
+* 子类重写了父类方法，当想调用的时候必须使用 super 关键字来引用父类的实例方法。
+
+```java
+package com.camellia.oop24;
+//父类同上。
+//子类
+public class Teacher extends Person{
+    
+    //特有的属性：工资
+    double sal;
+    //name属性和父类属性同名。
+    String name;
+
+    public Teacher() {
+    }
+
+    public Teacher(String name, int age, String email, String address, double sal) {
+        //子类构造方法不写super也会调用父类无参构造，因为隐式调用了super();
+        this.name = name;
+        this.age = age;
+        this.email = email;
+        this.address = address;
+        this.sal = sal;
+        //父类name为null。
+    }
+
+    public double getSal() {
+        return sal;
+    }
+
+    public void setSal(double sal) {
+        this.sal = sal;
+    }
+
+    public void display() {
+       
+        System.out.println("姓名：" + super.name);
+        System.out.println("年龄：" + super.age);
+        System.out.println("邮箱：" + super.email);
+        System.out.println("住址：" + super.address);
+        System.out.println("工资：" + this.sal);
+
+        System.out.println("姓名：" + this.name);
+        System.out.println("年龄：" + this.age);
+        System.out.println("邮箱：" + this.email);
+        System.out.println("住址：" + this.address);
+        System.out.println("工资：" + this.sal);
+    }
+    
+    @Override
+    public void doSome() {
+        // 重写的要求：要求在父类方法的执行基础之上额外再添加一些代码。
+        System.out.println("do some开始执行了");
+        // super. 什么时候不能省略？父中有，子中有相同的，但是想在子类中访问父的，必须添加 super.
+        super.doSome();
+        System.out.println("do some方法执行结束了");
+
+        // this本身是一个引用。所以可以直接输出。
+        System.out.println(this);
+        // super本身不是一个引用。super只是代表了当前对象的父类型特征那部分，况且super能输出，是输出它父类，还是父类的父类？
+        // super 不能够单独的输出。
+        //System.out.println(super); // 编译报错。
+    }
+}
+```
+* 在子类构造方法中调用父类构造方法要使用super    
+   * 在子类构造方法中调用父类构造方法时，必须放在子类构造方法的第一行，否则编译器会报错。这是因为在创建子类对象时，首先需要初始化父类的部分。
+   * 如果子类的构造方法没有显式地调用super(参数)，也没有显示的调用this(参数)，Java 编译器会默认插入对父类无参构造方法的调用，若父类没有无参则报错。
+```java
+class Parent {
+    private int x;
+
+    // 父类构造方法
+    Parent(int x) {
+        this.x = x;
+        System.out.println("Parent class constructor");
+    }
+}
+
+class Child extends Parent {
+    private int y;
+
+    // 子类构造方法
+    Child(int x, int y) {
+        super(x);
+        // 调用父类构造方法，必须放在子类构造方法的第一行,好处是增加代码复用。
+        // 通过子类构造方法调用父类构造方法是为了给继承过来的父类型特征初始化。
+        this.y = y;
+        System.out.println("Child class constructor");
+    }
+    
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Child child = new Child(10, 20);
+    }
+}
+```
+
+> **注意：**
+> 在我们定义了有参构造方法后，尽量再定义无参构造方法以避免以上错误。 
+
+
+
+
+
+# final关键字
+
+- **不可继承类：**  使用 "final" 关键字修饰的类表示该类不能被继承。
+- **不可覆盖方法：** 在父类中使用 "final" 关键字修饰的方法表示该方法不能被子类覆盖（即不能被重写）。
+- **不可变变量：** 使用 "final" 关键字声明的变量是不可变的，一旦赋值后就不能再修改其值。这在创建常量时很有用。
+   - final修饰的实例变量，必须在构造方法执行完之前手动上赋值，不能采用系统默认值。
+   - **常量定义规范：**   `public static final 数据类型 常量名 = 常量值;` 
+
+- **不可变对象：**在Java中，final修饰的引用变量意味着该变量不能再指向其他对象，但并不意味着其所指向的对象是不可变的。即使引用变量是final的，对象本身的状态仍然可以改变。 
+
+
+```java
+// 不可继承类
+final class FinalClass {
+    // 该类的内容
+}
+
+// 试图继承不可继承类会导致编译错误
+// class SubClass extends FinalClass {}
+
+class Parent {
+    // 不可覆盖的方法
+    public final void finalMethod() {
+        // 方法的内容
+    }
+}
+
+class Child extends Parent {
+    // 尝试覆盖父类的final方法会导致编译错误
+    // public void finalMethod() {}
+}
+
+public class Main {
+    // 不可变变量 - 常量
+    public static final int CONSTANT = 10;
+
+    // final修饰的实例变量，在构造方法中手动赋值
+    private final int instanceVariable;
+
+    // 构造方法
+    public Main(int value) {
+        instanceVariable = value;
+    }
+
+    // 不可变对象
+    public static void main(String[] args) {
+        final StringBuilder sb = new StringBuilder("Hello");
+        // 尝试改变引用的指向会导致编译错误
+        // sb = new StringBuilder("World");
+
+        // 尽管引用是final的，但对象本身的状态可以改变
+        sb.append(" World");
+        System.out.println(sb.toString()); // 输出：Hello World
+    }
+}
+
+```
