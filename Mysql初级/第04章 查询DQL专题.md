@@ -1497,42 +1497,54 @@ having ...4
 order by ...6
 重点掌握一个完整的DQL语句执行顺序。
 
-
 # 连接查询
-## 什么是连接查询
+
+## 一、什么是连接查询
 
 1. 从一张表中查询数据称为单表查询。
-2. 从两张或更多张表中联合查询数据称为多表查询，又叫做连接查询。
+2. 从两张或更多张表中联合查询数据称为**多表查询**，又叫做**连接查询**。
 3. 什么时候需要使用连接查询？
    1. 比如这样的需求：员工表中有员工姓名，部门表中有部门名字，要求查询每个员工所在的部门名字，这个时候就需要连接查询。
-## 连接查询的分类
+
+## 二、连接查询的分类
 
 1. 根据语法出现的年代进行分类：
    1. SQL92（这种语法很少用，可以不用学。）
    2. SQL99（我们主要学习这种语法。）
 2. 根据连接方式的不同进行分类：
-   1. 内连接
+   1. **内连接**
       1. 等值连接
       2. 非等值连接
       3. 自连接
-   2. 外连接
+   2. **外连接**
       1. 左外连接（左连接）
       2. 右外连接（右连接）
    3. 全连接
+      1. MySQL不支持全连接
 
-![](https://cdn.nlark.com/yuque/0/2023/jpeg/21376908/1692002570088-3338946f-42b3-4174-8910-7e749c31e950.jpeg#averageHue=%23f9f8f8&from=url&id=RfJym&originHeight=78&originWidth=1400&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=shadow&title=)
-## 笛卡尔积现象
+
+
+## 三、笛卡尔积现象
 
 1. 当两张表进行连接查询时，如果没有任何条件进行过滤，最终的查询结果条数是两张表条数的乘积。为了避免笛卡尔积现象的发生，需要添加条件进行筛选过滤。
-2. 需要注意：添加条件之后，虽然避免了笛卡尔积现象，但是匹配的次数没有减少。
-3. 为了SQL语句的可读性，为了执行效率，建议给表起别名。
-## 内连接
-### 什么叫内连接
-![内连接.png](https://cdn.nlark.com/yuque/0/2023/png/21376908/1677398804476-afbffad7-7d5a-4318-9e86-a3f8092dfcc8.png#averageHue=%23f7f5f5&clientId=u1be67ea7-0240-4&from=paste&height=233&id=u4f6abf7d&originHeight=233&originWidth=300&originalType=binary&ratio=1&rotation=0&showTitle=false&size=29826&status=done&style=shadow&taskId=u51112874-93e5-4ef2-8366-f78cc265d04&title=&width=300)
+2. 需要注意：添加条件之后，虽然避免了笛卡尔积现象，但是**匹配的次数没有减少**。
+3. 为了SQL语句的可读性，**为了执行效率，建议给表起别名**。
+   - `表的别名.字段名`
+
+## 四、内连接
+
+### 4.1 什么叫内连接
+
+![内连接.png](https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/asserts_JavaSE/202406092045946.png)
+
 满足条件的记录才会出现在结果集中。
-### 内连接之等值连接
-连接时，条件为等量关系。
+
+### 4.2 内连接之等值连接
+
+> **连接时，条件为等量关系。**
+
 案例：查询每个员工所在的部门名称，要求显示员工名、部门名。
+
 ```sql
 select
 	e.ename,d.dname
@@ -1543,12 +1555,35 @@ inner join
 on
 	e.deptno = d.deptno;
 ```
-注意：inner可以省略。
+**注意：inner可以省略。**
+
 ![image.png](https://cdn.nlark.com/yuque/0/2023/png/21376908/1677401675659-04e46e96-9f00-4210-8beb-e8148807ae10.png#averageHue=%231a1613&clientId=u1be67ea7-0240-4&from=paste&height=380&id=u91e060d7&originHeight=380&originWidth=258&originalType=binary&ratio=1&rotation=0&showTitle=false&size=15942&status=done&style=shadow&taskId=u2319a8db-57a3-4bcb-a42b-b58c46e0381&title=&width=258)
-![](https://cdn.nlark.com/yuque/0/2023/jpeg/21376908/1692002570088-3338946f-42b3-4174-8910-7e749c31e950.jpeg#averageHue=%23f9f8f8&from=url&id=clVoK&originHeight=78&originWidth=1400&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=shadow&title=)
-### 内连接之非等值连接
-连接时，条件是非等量关系。
+
+
+
+案例：查询员工薪资>2000所在的部门名称，要求显示员工名、部门名。
+
+```sql
+select
+	e.ename,d.dname
+from
+	emp e
+inner join
+	dept d
+on
+	e.deptno = d.deptno;
+where
+    sal > 2000;
+```
+
+![](https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/asserts_JavaSE/202406092056031.png)
+
+### 4.3 内连接之非等值连接
+
+> 连接时，条件是非等量关系。
+
 案例：查询每个员工的工资等级，要求显示员工名、工资、工资等级。
+
 ```sql
 select
 	e.ename,e.sal,s.grade
@@ -1560,10 +1595,15 @@ on
 	e.sal between s.losal and s.hisal;
 ```
 ![image.png](https://cdn.nlark.com/yuque/0/2023/png/21376908/1677401628377-11f115a0-b961-4e10-b411-97ea04a89035.png#averageHue=%23191613&clientId=u1be67ea7-0240-4&from=paste&height=380&id=u9ef14890&originHeight=380&originWidth=279&originalType=binary&ratio=1&rotation=0&showTitle=false&size=17957&status=done&style=shadow&taskId=u97872f0c-74c1-40ef-b3bb-607697cbe62&title=&width=279)
-![](https://cdn.nlark.com/yuque/0/2023/jpeg/21376908/1692002570088-3338946f-42b3-4174-8910-7e749c31e950.jpeg#averageHue=%23f9f8f8&from=url&id=ianfB&originHeight=78&originWidth=1400&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=shadow&title=)
-### 内连接之自连接
-连接时，一张表看做两张表，自己和自己进行连接。
+
+
+
+### 4.4 内连接之自连接
+
+> 连接时，一张表看做两张表，自己和自己进行连接。
+
 案例：找出每个员工的直属领导，要求显示员工名、领导名。
+
 ```sql
 select
 	e.ename 员工名, l.ename 领导名
@@ -1574,25 +1614,48 @@ join
 on
 	e.mgr = l.empno;
 ```
+```sql
+select
+	e.ename 员工名, l.ename 领导名
+from
+	emp e
+join
+	emp l
+where
+	e.mgr = l.empno;
+```
+
+
+
+
+
 ![image.png](https://cdn.nlark.com/yuque/0/2023/png/21376908/1677402107820-a3fc38cc-4e13-4a39-8bb4-f1d9de713cd9.png#averageHue=%23161311&clientId=u1be67ea7-0240-4&from=paste&height=363&id=ub784a9c1&originHeight=363&originWidth=256&originalType=binary&ratio=1&rotation=0&showTitle=false&size=15854&status=done&style=shadow&taskId=u67543946-a969-42f9-a55b-91571731d16&title=&width=256)
+
 思路：
 将emp表当做员工表 e
+
 ![image.png](https://cdn.nlark.com/yuque/0/2023/png/21376908/1677401951879-b0967e07-82f4-41e3-861e-d61e7d679e71.png#averageHue=%23141210&clientId=u1be67ea7-0240-4&from=paste&height=409&id=u4a5d8630&originHeight=409&originWidth=409&originalType=binary&ratio=1&rotation=0&showTitle=false&size=28580&status=done&style=shadow&taskId=ua9050736-6b86-415c-9f4d-e4e8d72c0b5&title=&width=409)
+
 将emp表当做领导表 l
+
 ![image.png](https://cdn.nlark.com/yuque/0/2023/png/21376908/1677401973338-4bc03ba9-815d-4fca-90fb-de34e5848da3.png#averageHue=%2312100f&clientId=u1be67ea7-0240-4&from=paste&height=409&id=uffcf8f58&originHeight=409&originWidth=374&originalType=binary&ratio=1&rotation=0&showTitle=false&size=19851&status=done&style=shadow&taskId=uad8210e5-8156-449c-bc2f-25f2614109b&title=&width=374)
-可以发现连接条件是：e.mgr = l.empno（员工的领导编号=领导的员工编号）
+
+可以发现连接条件是：e.mgr = l.empno（员工的领导编号=领导的员工编号)
 注意：KING这个员工没有查询出来。如果想将KING也查询出来，需要使用外连接。
 
-![](https://cdn.nlark.com/yuque/0/2023/jpeg/21376908/1692002570088-3338946f-42b3-4174-8910-7e749c31e950.jpeg#averageHue=%23f9f8f8&from=url&id=Kz0kN&originHeight=78&originWidth=1400&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=shadow&title=)
+
 ## 外连接
+
 ### 什么叫外连接
 内连接是满足条件的记录查询出来。也就是两张表的交集。
 外连接是除了满足条件的记录查询出来，再将其中一张表的记录全部查询出来，另一张表如果没有与之匹配的记录，自动模拟出NULL与其匹配。
-左外连接：
-![左连接.png](https://cdn.nlark.com/yuque/0/2023/png/21376908/1677398828684-41b0bde2-1689-47a4-ae7b-3c5c4fb82ce6.png#averageHue=%23f5e6e4&clientId=u1be67ea7-0240-4&from=paste&height=233&id=ue0f4c04f&originHeight=233&originWidth=300&originalType=binary&ratio=1&rotation=0&showTitle=false&size=42064&status=done&style=shadow&taskId=u3697d149-d9f5-4090-8773-ffb0962ff90&title=&width=300)
-右外连接：
-![右连接.png](https://cdn.nlark.com/yuque/0/2023/png/21376908/1677398837026-688ff40f-d74b-4da6-a2e4-9573f5ba1580.png#averageHue=%23f4e6e3&clientId=u1be67ea7-0240-4&from=paste&height=233&id=ua18b1d44&originHeight=233&originWidth=300&originalType=binary&ratio=1&rotation=0&showTitle=false&size=43272&status=done&style=shadow&taskId=u4bb1c6ab-4c51-4fe0-938b-a7950969180&title=&width=300)
-![](https://cdn.nlark.com/yuque/0/2023/jpeg/21376908/1692002570088-3338946f-42b3-4174-8910-7e749c31e950.jpeg#averageHue=%23f9f8f8&from=url&id=XFps5&originHeight=78&originWidth=1400&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=shadow&title=)
+**左外连接：**
+![左连接.png](https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/asserts_JavaSE/202406092125507.png)
+**右外连接：**
+![右连接.png](https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/asserts_JavaSE/202406092125675.png)
+
+
+
 ### 外连接之左外连接（左连接）
 案例：查询所有部门信息，并且找出每个部门下的员工。
 ```sql
@@ -1605,11 +1668,16 @@ left outer join
 on
   d.deptno = e.deptno;
 ```
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/21376908/1677402955987-bdcd956a-8dd4-481b-97de-c785b200e902.png#averageHue=%23171411&clientId=u1be67ea7-0240-4&from=paste&height=408&id=ud8f95a62&originHeight=408&originWidth=470&originalType=binary&ratio=1&rotation=0&showTitle=false&size=36154&status=done&style=shadow&taskId=u3263d663-860e-41a9-b973-50a3be9baa0&title=&width=470)
-注意：outer可以省略。
-任何一个左连接都可以写作右连接。
-![](https://cdn.nlark.com/yuque/0/2023/jpeg/21376908/1692002570088-3338946f-42b3-4174-8910-7e749c31e950.jpeg#averageHue=%23f9f8f8&from=url&id=PUaJ7&originHeight=78&originWidth=1400&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=shadow&title=)
+<img src="https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/asserts_JavaSE/202406092127077.png" alt="image.png" style="zoom: 80%;" />
+
+> 注意：outer可以省略。
+>
+> 任何一个左连接都可以写作右连接。
+
+
+
 ### 外连接之右外连接（右连接）
+
 还是上面的案例，可以写作右连接。
 ```sql
 select
@@ -1621,8 +1689,10 @@ right outer join
 on
   d.deptno = e.deptno;
 ```
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/21376908/1677403445932-325502d5-b568-46a5-8f7a-d91030f3cac3.png#averageHue=%23191411&clientId=u1be67ea7-0240-4&from=paste&height=412&id=ue32d3266&originHeight=412&originWidth=454&originalType=binary&ratio=1&rotation=0&showTitle=false&size=36142&status=done&style=shadow&taskId=u28ef1b62-f835-472a-b916-1ee2eb5299b&title=&width=454)
+<img src="https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/asserts_JavaSE/202406092128854.png" alt="image.png" style="zoom:80%;" />
+
 案例：找出所有员工的上级领导，要求显示员工名和领导名。
+
 ```sql
 select 
   e.ename 员工名,l.ename 领导名 
@@ -1643,19 +1713,25 @@ right join
 on
   e.mgr = l.empno;
 ```
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/21376908/1677403569294-c9688076-61e2-4e33-bb40-06d4307c6b43.png#averageHue=%23171210&clientId=u1be67ea7-0240-4&from=paste&height=386&id=ud80e0755&originHeight=386&originWidth=273&originalType=binary&ratio=1&rotation=0&showTitle=false&size=16908&status=done&style=shadow&taskId=uded0f105-8d51-486b-97fb-acb24822774&title=&width=273)
-![](https://cdn.nlark.com/yuque/0/2023/jpeg/21376908/1692002570088-3338946f-42b3-4174-8910-7e749c31e950.jpeg#averageHue=%23f9f8f8&from=url&id=t1JJ5&originHeight=78&originWidth=1400&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=shadow&title=)
+<img src="https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/asserts_JavaSE/202406092130197.png" alt="image.png" style="zoom:80%;" />
+
+
 
 ## 全连接
+
 什么是全连接？
-MySQL不支持full join。oracle数据库支持。
-![全连接.png](https://cdn.nlark.com/yuque/0/2023/png/21376908/1677398846702-4a3f3e0f-16bb-4e00-8015-490dc44d114b.png#averageHue=%23f2d7d2&clientId=u1be67ea7-0240-4&from=paste&height=233&id=u050103a2&originHeight=233&originWidth=300&originalType=binary&ratio=1&rotation=0&showTitle=false&size=51399&status=done&style=shadow&taskId=ued746d97-47c2-46a3-83cd-097182ea146&title=&width=300)
+**MySQL不支持full join。oracle数据库支持。**
+
+![全连接.png](https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/asserts_JavaSE/202406092134609.png)
+
 两张表数据全部查询出来，没有匹配的记录，各自为对方模拟出NULL进行匹配。
+
 客户表：t_customer
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/21376908/1677405118434-d9979d32-5647-4b0a-8d65-1ff6b61c6d44.png#averageHue=%23131210&clientId=u1be67ea7-0240-4&from=paste&height=137&id=u66bb1e76&originHeight=137&originWidth=235&originalType=binary&ratio=1&rotation=0&showTitle=false&size=4218&status=done&style=shadow&taskId=u7d338668-6c7a-488f-851d-635afa97d29&title=&width=235)
+![image.png](https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/asserts_JavaSE/202406092134489.png)
 订单表：t_order
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/21376908/1677405287024-4df811ac-9216-47c3-98b2-20f5d7ce2886.png#averageHue=%23151311&clientId=u1be67ea7-0240-4&from=paste&height=136&id=u8ef1b39a&originHeight=136&originWidth=261&originalType=binary&ratio=1&rotation=0&showTitle=false&size=4032&status=done&style=shadow&taskId=u69ae2de5-204a-4a0b-8d2f-67ccbc73ad2&title=&width=261)
+![image.png](https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/asserts_JavaSE/202406092134904.png)
 案例：查询所有的客户和订单。
+
 ```sql
 select 
  c.*,o.* 
@@ -1668,6 +1744,7 @@ on
 ```
 
 ## 多张表连接
+
 三张表甚至更多张表如何进行表连接
 案例：找出每个员工的部门，并且要求显示每个员工的薪资等级。
 ```sql
@@ -1684,9 +1761,9 @@ join
 on 
  e.sal between s.losal and s.hisal;
 ```
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/21376908/1677404511432-b8fe8eb2-c828-4913-8d7c-a7b47a0ee270.png#averageHue=%23171411&clientId=u1be67ea7-0240-4&from=paste&height=381&id=u6047af30&originHeight=381&originWidth=324&originalType=binary&ratio=1&rotation=0&showTitle=false&size=18547&status=done&style=shadow&taskId=uc90c12f6-bdbb-4221-abe5-dcc4e221c96&title=&width=324)
+<img src="https://camelliaxiaohua-1313958787.cos.ap-shanghai.myqcloud.com/asserts_JavaSE/202406092138543.png" alt="image.png" style="zoom:80%;" />
 
-![](https://cdn.nlark.com/yuque/0/2023/jpeg/21376908/1692002570088-3338946f-42b3-4174-8910-7e749c31e950.jpeg#averageHue=%23f9f8f8&from=url&id=oPaaH&originHeight=78&originWidth=1400&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=shadow&title=)
+
 # 子查询
 ## 什么是子查询
 
